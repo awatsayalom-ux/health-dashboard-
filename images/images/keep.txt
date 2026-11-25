@@ -1,0 +1,96 @@
+	<!DOCTYPE html>									
+	<html lang="th">									
+	<head>									
+	<meta charset="UTF-8">									
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">									
+	<title>CHOCO CRAFT - ช็อกโกแลตแท่ง</title>									
+	<style>									
+	body { font-family: sans-serif; background: #fdf8f5; color: #3e2723; margin: 0; padding: 20px; }									
+	.container { max-width: 800px; margin: auto; }									
+	h1 { text-align: center; color: #4e342e; }									
+	.products { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; }									
+	.card { background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; padding: 15px; text-align: center; }									
+	.card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; background: #eee; }									
+	.sku { font-size: 12px; color: #8d6e63; font-weight: bold; margin-top: 8px; }									
+	.price { font-size: 20px; font-weight: bold; color: #d84315; margin: 10px 0; }									
+	.form-box { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }									
+	input, select, textarea { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }									
+	button { width: 100%; padding: 14px; background: #5d4037; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }									
+	</style>									
+	</head>									
+	<body>									
+	<div class="container">									
+	<h1>🍫 CHOCO CRAFT ร้านช็อกโกแลตแท่ง</h1>									
+	<div class="products">									
+	<div class="card">									
+	<img src="images/choco1.jpg" alt="SKU 1">									
+	<div class="sku">SKU: CHOCO-01</div>									
+	<h3>ดาร์กช็อกโกแลตแท่ง</h3>									
+	<div class="price">89 บาท</div>									
+	</div>									
+	<div class="card">									
+	<img src="images/choco2.jpg" alt="SKU 2">									
+	<div class="sku">SKU: CHOCO-02</div>									
+	<h3>มิลค์ช็อกโกแลตแท่ง</h3>									
+	<div class="price">99 บาท</div>									
+	</div>									
+	</div>									
+										
+	<div class="form-box">									
+	<h2>📦 สั่งซื้อสินค้า</h2>									
+	<form id="orderForm">									
+	<label>เลือกสินค้า (SKU):</label>									
+	<select id="skuSelect" required>									
+	<option value="CHOCO-01|ดาร์กช็อกโกแลตแท่ง">[CHOCO-01] ดาร์กช็อกโกแลตแท่ง - 89 บาท</option>									
+	<option value="CHOCO-02|มิลค์ช็อกโกแลตแท่ง">[CHOCO-02] มิลค์ช็อกโกแลตแท่ง - 99 บาท</option>									
+	</select>									
+										
+	<label>จำนวน:</label>									
+	<input type="number" id="qty" value="1" min="1" required>									
+										
+	<label>ชื่อผู้รับ:</label>									
+	<input type="text" id="name" required>									
+										
+	<label>เบอร์โทร:</label>									
+	<input type="tel" id="phone" required>									
+										
+	<label>ที่อยู่จัดส่ง (สำหรับจ่าหน้าพัสดุ):</label>									
+	<textarea id="address" rows="3" required></textarea>									
+										
+	<button type="submit" id="submitBtn">ยืนยันการสั่งซื้อ</button>									
+	</form>									
+	</div>									
+	</div>														
+	<script>									
+	const SCRIPT_URL = "ใส่ลิงก์_WEB_APP_URL_ของคุณที่นี่";									
+	document.getElementById("orderForm").addEventListener("submit", function(e) {									
+	e.preventDefault();									
+	const btn = document.getElementById("submitBtn");									
+	btn.disabled = true;									
+	btn.innerText = "กำลังบันทึก...";									
+	const selected = document.getElementById("skuSelect").value.split("|");									
+	const orderData = {									
+	orderId: "ORD-" + Math.floor(1000 + Math.random() * 9000),									
+	sku: selected[0],									
+	productName: selected[1],									
+	qty: document.getElementById("qty").value,									
+	name: document.getElementById("name").value,									
+	phone: document.getElementById("phone").value,									
+	address: document.getElementById("address").value									
+	};									
+	fetch(SCRIPT_URL, {									
+	method: "POST",									
+	mode: "no-cors",									
+	headers: { "Content-Type": "application/json" },									
+	body: JSON.stringify(orderData)									
+	}).then(() => {									
+	alert("สั่งซื้อสำเร็จ! รหัส: " + orderData.orderId);									
+	document.getElementById("orderForm").reset();									
+	btn.disabled = false;									
+	btn.innerText = "ยืนยันการสั่งซื้อ";									
+	});									
+	});									
+	</script>									
+	</body>									
+	</html>									
+										
